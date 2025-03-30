@@ -3,6 +3,7 @@ package ru.tbank.fdsspring.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.tbank.fdsspring.entity.Client;
+import ru.tbank.fdsspring.model.ClientsPage;
 import ru.tbank.fdsspring.service.ClientService;
 
 import java.util.List;
@@ -14,9 +15,9 @@ class ClientController {
 
     private final ClientService clientService;
 
-    @GetMapping
-    public List<Client> getAllUsers() {
-        return clientService.getAllUsers();
+    @GetMapping()
+    public ClientsPage getAllUsers(@RequestParam int pageSize, @RequestParam int pageNumber) {
+        return clientService.getAllUsers(pageSize, pageNumber);
     }
 
     @PostMapping
@@ -37,5 +38,10 @@ class ClientController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         clientService.deleteUser(id);
+    }
+
+    @PostMapping("/mail")
+    public void sendMail() {
+        clientService.sendMailToAllClients();
     }
 }

@@ -1,0 +1,19 @@
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image (with internal Gradle build)
+        run: docker build -t myapp:${{ github.sha }} .
+
+      - name: Run tests inside Docker (optional)
+        run: docker run --rm myapp:${{ github.sha }} ./gradlew test

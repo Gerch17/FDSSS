@@ -16,7 +16,6 @@ public class CurrencyRateJob {
     private final CbrClient cbrClient;
 
     @Scheduled(cron = "0 0 * * *")
-    @PostConstruct
     public void fetchAndPrintRates() {
         List<CurrencyRateDto> rates = cbrClient.fetchRates();
         rates.forEach(System.out::println);
